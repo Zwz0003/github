@@ -32,7 +32,7 @@ def acolite_l2r(gem,
         nc_projection = gem.nc_projection
     gemf = gem.file
 
-    # print("gem.data", gem.data)
+    print("gem.data", gem.data)
 
     ## combine default and user defined settings
     setu = ac.acolite.settings.parse(gem.gatts['sensor'], settings=settings)
@@ -72,7 +72,7 @@ def acolite_l2r(gem,
     ## read rsrd and get band wavelengths
     hyper = False
     ## hyperspectral
-    # print("gem.gatts", gem.gatts)
+    print("gem.gatts", gem.gatts)
     if gem.gatts['sensor'] in ac.hyper_sensors:
         hyper = True
         if gem.gatts['sensor']=='DESIS_HSI':
@@ -165,7 +165,7 @@ def acolite_l2r(gem,
 
     ## get mean average geometry
     geom_ds = ['sza', 'vza', 'raa', 'pressure', 'wind']
-    # print("gem.datasets", gem.datasets)
+    print("gem.datasets", gem.datasets)
     for ds in gem.datasets:
         if ('raa_' in ds) or ('vza_' in ds):
             gem.data(ds, store=True, return_data=False)
@@ -174,12 +174,12 @@ def acolite_l2r(gem,
     geom_mean = {k: np.nanmean(gem.data(k)) if k in gem.datasets else gem.gatts[k] for k in geom_ds}
 
     ## get gas transmittance
-    # print("geom_mean", geom_mean)
+    print("geom_mean", geom_mean)
     # print("rsrd['rsr']", rsrd['rsr'])
     tg_dict = ac.ac.gas_transmittance(geom_mean['sza'], geom_mean['vza'],
                                       uoz=gem.gatts['uoz'], uwv=gem.gatts['uwv'],
                                       rsr=rsrd['rsr'])
-    # print("tg_dict", tg_dict)
+    print("tg_dict", tg_dict)
 
     ## make bands dataset
     gem.bands = {}
@@ -193,7 +193,6 @@ def acolite_l2r(gem,
                     gem.bands[b][k] = tg_dict[k][b]
             gem.bands[b]['wavelength']=gem.bands[b]['wave_nm']
     ## end bands dataset
-    print("End bands dataset")
 
     ## atmospheric correction
     if setu['aerosol_correction'] == 'dark_spectrum':
@@ -615,7 +614,6 @@ def acolite_l2r(gem,
                 if setu['dsf_aot_estimate'] == 'tiled': aot_band[lut][aot_band[lut]<setu['dsf_min_tile_aot']]=np.nan
 
                 ## store current band results
-                # print("aot_band", aot_band)
                 aot_dict[b] = aot_band
                 aot_bands.append(b)
 
@@ -1219,7 +1217,6 @@ def acolite_l2r(gem,
 
             ## do atmospheric correction
             rhot_noatm = (cur_data/ gem.bands[b]['tt_gas']) - romix
-            # print("rhot_noatm", rhot_noatm)
             romix = None
             cur_data = (rhot_noatm) / (dutott + astot*rhot_noatm)
             astot=None
@@ -1487,8 +1484,6 @@ def acolite_l2r(gem,
                     ## remove glint from rhos
                     cur_data = gemo.data(rhos_ds)
                     cur_data[sub_gc]-=cur_rhog
-                    print("rhos_ds", rhos_ds)
-                    print("gem.bands[b]", gem.bands[b])
                     gemo.write(rhos_ds, cur_data, ds_att = gem.bands[b])
 
                     ## write band glint
@@ -1665,8 +1660,6 @@ def acolite_l2r(gem,
             ob_data = gemo.data(gemo.bands[panb]['rhos_ds'])*float(ob_cfg['pf'])
             ob_data += gemo.data(gemo.bands[greenb]['rhos_ds'])*float(ob_cfg['gf'])
             ob_data += gemo.data(gemo.bands[redb]['rhos_ds'])*float(ob_cfg['rf'])
-            print("ob['rhos_ds']", ob['rhos_ds'])
-            print("ob", ob)
             gemo.write(ob['rhos_ds'], ob_data, ds_att = ob)
             ob_data = None
             ob = None

@@ -53,8 +53,6 @@ def gas_transmittance(sza, vza, pressure = 1013, waves = None, uoz = 0.3, uwv = 
 
     ## resample individual datasets
     if rsr is not None:
-        # print("rsr", rsr)
-        for k in d:
-            d[k] = ac.shared.rsr_convolute_dict(waves, d[k], rsr)
+        for k in d: d[k] = ac.shared.rsr_convolute_dict(waves, d[k], rsr)
 
     return(d)

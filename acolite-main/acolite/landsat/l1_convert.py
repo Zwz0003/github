@@ -68,7 +68,7 @@ def l1_convert(inputfile, output = None, settings = {},
         ## read landsat metadata and check files
         if verbosity > 1: print('Importing metadata from {}'.format(bundle))
         meta = ac.landsat.metadata_read(mtl)
-        # print("meta", meta)
+        print("meta", meta)
         fmeta = ac.landsat.metadata_bands(bundle, meta)
 
         ## get relevant data from meta

@@ -21,7 +21,8 @@ def extract(st_lon, st_lat, sdate,
                            landsat_collection = '02',
                            surface_reflectance = False,
                            sources = ['Landsat 5', 'Landsat 7','Landsat 8','Landsat 9', 'Sentinel-2'],
-                           verbosity=0):
+                           verbosity=0,
+                           singlepixel = True):
 
     import os, sys
     import json,bz2, dateutil.parser, datetime, re
@@ -290,7 +291,7 @@ def extract(st_lon, st_lat, sdate,
             im_x, im_y = ret['x'][0], ret['y'][0]
 
             ## this part of the code extracts a single pixel
-            if False:
+            if singlepixel:
                 ## get pixel coordinates in lon/lat
                 tmp = ee.Image.clip(im.pixelLonLat(),pt)
                 ret = ee.Image.reduceRegion(tmp, ee.Reducer.toList(), scale=scale).getInfo()

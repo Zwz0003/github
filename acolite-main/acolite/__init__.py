@@ -29,7 +29,8 @@ from acolite import adjacency
 from acolite import gem
 from acolite import parameters
 
-from acolite import gee_launch
+from acolite import gee_nc2csv
+from acolite import acolite_gee_run
 
 import os
 code_path = os.path.dirname(os.path.abspath(__file__))

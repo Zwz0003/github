@@ -21,6 +21,7 @@ def acolite_l2w(gem,
     import scipy.ndimage
     import skimage.color
 
+    copy_datasets = ['lon', 'lat']
     ## read gem file if NetCDF
     if type(gem) is str:
         gemf = '{}'.format(gem)

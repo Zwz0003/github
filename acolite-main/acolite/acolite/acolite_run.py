@@ -87,8 +87,8 @@ def acolite_run(settings, inputfile=None, output=None):
         # print("ret", ret)
         if len(ret) == 0: continue
         l1r_files, l1r_setu = ret
-        # print("l1r_files", l1r_files)
-        # print("l1r_setu", l1r_setu)
+        print("l1r_files", l1r_files)
+        print("l1r_setu", l1r_setu)
         processed[ni]['l1r'] = l1r_files
 
         ## save all used settings
@@ -100,7 +100,7 @@ def acolite_run(settings, inputfile=None, output=None):
         l2w_files = []
         for l1r in l1r_files:
             gatts = ac.shared.nc_gatts(l1r)
-            # print("gatts", gatts)
+            print("gatts", gatts)
             if 'acolite_file_type' not in gatts: gatts['acolite_file_type'] = 'L1R'
             if l1r_setu['l1r_export_geotiff']: ac.output.nc_to_geotiff(l1r, match_file = l1r_setu['export_geotiff_match_file'],
                                                             cloud_optimized_geotiff = l1r_setu['export_cloud_optimized_geotiff'],
